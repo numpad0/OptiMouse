@@ -198,6 +198,19 @@ class PAN301 : public OptiMouse
     * @return None    
     */
     void setOutputResolution(uint8_t mode);
+    /**
+    * @fn reSync
+    * @brief Re-Synchronous Serial Interface
+    * @return None    
+    */
+    void reSync(bool physicalPin=false);
+    /**
+    * @fn softReset
+    * @param physicalPin true: Use PD pin, 1: Use register
+    * @brief Soft Reset
+    * @return None    
+    */
+    void softReset();
 };
 
 #endif

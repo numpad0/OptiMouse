@@ -217,6 +217,7 @@ void PAN301::wakeUp(bool physicalPin=false){
         _op_mode=writeNumInByte(_op_mode,0b1,1,0);
         writeRegister(Operation_Mode,_op_mode);
     }
+    delay(3);
 }
 
 /******************************************************************************
@@ -238,8 +239,10 @@ void PAN301::setPowerDownMode(uint8_t mode){
 }
 
  void PAN301::powerDown(bool physicalPin=false){
-    if(physicalPin==true)
+    if(physicalPin==true){
         digitalWrite(_pdPin,HIGH);
+        delay(1);
+    }
     else
         setPowerDownMode(1);
  }
@@ -258,6 +261,35 @@ void PAN301::setOutputResolution(uint8_t mode){
     }
 }
 
+void PAN301::reSync(bool physicalPin=false){
+    if(physicalPin){
+        digitalWrite(_pdPin, HIGH);                     
+        delayMicroseconds(2);
+        digitalWrite(_pdPin, LOW);
+        digitalWrite(_sclkPin, LOW);                     
+        delayMicroseconds(1);
+        digitalWrite(_sclkPin, HIGH);                     
+    }
+    else{
+        digitalWrite(_sclkPin, HIGH);                     
+        delayMicroseconds(1);
+        digitalWrite(_sclkPin, LOW);
+        delayMicroseconds(2);
+        digitalWrite(_sclkPin, HIGH);                     
+        delay(2);
+    }
+
+}
+void PAN301::softReset(){
+    digitalWrite(_sclkPin, LOW);
+    delayMicroseconds(1);
+    digitalWrite(_pdPin, HIGH);
+	delayMicroseconds(2);
+	digitalWrite(_pdPin, LOW);    
+    delayMicroseconds(1);
+    digitalWrite(_sclkPin, HIGH);
+
+}
 // Private Methods /////////////////////////////////////////////////////////////
 uint8_t PAN301::writeNumInByte(uint8_t source, uint8_t data, uint8_t numBit, uint8_t startBit){  
   uint8_t res=source;
@@ -265,3 +297,5 @@ uint8_t PAN301::writeNumInByte(uint8_t source, uint8_t data, uint8_t numBit, uin
     if (data & (1 << i-startBit)) res = res | (1 << i); else res = res & (~(1 << i));
   return res;
 }
+
+

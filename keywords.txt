@@ -37,6 +37,8 @@ powerDown	 KEYWORD2
 getOutputResolution	 KEYWORD2
 setOutputResolution	 KEYWORD2
 writeNumInByte	 KEYWORD2
+reSync KEYWORD2
+softReset KEYWORD2
 
 
 #######################################

@@ -4,7 +4,7 @@
  http://www.martijnthe.nl/
  Conversion to Arduino 1.x by zapmaker (zapmaker.org)
  
- Based on sketches by Benoît Rousseau.
+ Based on sketches by Benoï¿½t Rousseau.
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -51,7 +51,7 @@ OptiMouse::OptiMouse(uint8_t sclkPin, uint8_t sdioPin)
 
 void OptiMouse::begin(void)
 {
-	// Re-sync (see datasheet §5.4):
+	// Re-sync (see datasheet ï¿½5.4):
 	// Toggle the SLCK line from high to low to high....
 	digitalWrite(_sclkPin, HIGH);                     
 	delayMicroseconds(5);
@@ -61,7 +61,7 @@ void OptiMouse::begin(void)
 	
 	// Wait at least tSIWTT (0.9 second?) for the
 	// OptiMouse serial transaction timer to time out:
-	delay(1000);
+	delay(10);
 }
 
 // Private Methods /////////////////////////////////////////////////////////////
