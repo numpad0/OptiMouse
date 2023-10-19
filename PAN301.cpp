@@ -84,6 +84,7 @@ PAN301::PAN301(uint8_t sclkPin, uint8_t sdioPin) : OptiMouse::OptiMouse(sclkPin,
 PAN301::PAN301(uint8_t sclkPin, uint8_t sdioPin, uint8_t pdPin) : OptiMouse::OptiMouse(sclkPin, sdioPin)
 {
     _pdPin=pdPin;
+    pinMode (_pdPin, OUTPUT);
 }
 
 /******************************************************************************
