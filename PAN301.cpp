@@ -152,7 +152,7 @@ void PAN301::setLedShutterEnable(uint8_t mode){
     if(mode<2){
         uint8_t _op_mode = readRegister(Operation_Mode);
         _op_mode=writeNumInByte(_op_mode,mode,1,7);
-        writeRegister(_op_mode)
+        writeRegister(Operation_Mode,_op_mode);
     }
 }
 
@@ -165,7 +165,7 @@ void PAN301::setXYQuadratureOutputEnable(uint8_t mode){
     if(mode<2){
         uint8_t _op_mode = readRegister(Operation_Mode);
         _op_mode=writeNumInByte(_op_mode,mode,1,6);
-        writeRegister(_op_mode)
+        writeRegister(Operation_Mode,_op_mode);
     }
 }
 
@@ -197,14 +197,14 @@ void PAN301::enterToSleep1(){
     uint8_t _op_mode = readRegister(Operation_Mode);
     _op_mode=writeNumInByte(_op_mode,0b1,1,4);
     _op_mode=writeNumInByte(_op_mode,0b010,1,0);
-    writeRegister(_op_mode)
+    writeRegister(Operation_Mode,_op_mode);
 }
 
 void PAN301::enterToSleep2(){
     uint8_t _op_mode = readRegister(Operation_Mode);    
     _op_mode=writeNumInByte(_op_mode,0b1,1,4);
     _op_mode=writeNumInByte(_op_mode,0b100,1,0);
-    writeRegister(_op_mode)
+    writeRegister(Operation_Mode,_op_mode);
 }
 
 void PAN301::wakeUp(bool physicalPin=false){
@@ -214,7 +214,7 @@ void PAN301::wakeUp(bool physicalPin=false){
     {
         uint8_t _op_mode = readRegister(Operation_Mode);    
         _op_mode=writeNumInByte(_op_mode,0b1,1,0);
-        writeRegister(_op_mode)
+        writeRegister(Operation_Mode,_op_mode);
     }
 }
 
@@ -232,7 +232,7 @@ void PAN301::setPowerDownMode(uint8_t mode){
     if(mode<2){
         uint8_t _config = readRegister(Configuration_Register);
         _config=writeNumInByte(_config,mode,1,3);
-        writeRegister(_config)
+        writeRegister(Configuration_Register,_config);
     }
 }
 
@@ -253,7 +253,7 @@ void PAN301::setOutputResolution(uint8_t mode){
     if(mode<3){
         uint8_t _config = readRegister(Configuration_Register);
         _config=writeNumInByte(_config,mode,2,1);
-        writeRegister(_config)
+        writeRegister(Configuration_Register,_config);
     }
 }
 
