@@ -16,8 +16,6 @@
 /******************************************************************************
  * Definitions
  ******************************************************************************/
-#define Product_ID			0x00
-
 #define Motion_Status		0x02
 
 #define Delta_Y				0x03
@@ -84,22 +82,39 @@ PAN301::PAN301(uint8_t sclkPin, uint8_t sdioPin) : OptiMouse::OptiMouse(sclkPin,
 }
 
 /******************************************************************************
- * User API
+ * Product_ID
  ******************************************************************************/
-
-void PAN301::updateStatus(void)
-{
-	_status = readRegister(Motion_Status);
+uint16_t PAN301::productID(){
+    uint16_t res=0;
+    uint8_t pid0=readRegister(0x0);
+    uint8_t pid1=readRegister(0x1);
+    res = pid0;
+    res = (res<<6) | ((pid1 & 0b11111100)>>2);
+    return res;
 }
 
+/******************************************************************************
+// Delta_X
+******************************************************************************/
 signed char PAN301::dx(void)
 {
 	return (signed char) readRegister(Delta_X);
 }
+/******************************************************************************
+// Delta_Y
+******************************************************************************/
 
 signed char PAN301::dy(void)
 {
 	return (signed char) readRegister(Delta_Y);
+}
+/******************************************************************************
+// Motion Status 
+Field: Motion[7]  Reserved[6:5]  DYOVF[4] DXOVF[3]  RES[2:1]  Reserved[0]
+******************************************************************************/
+void PAN301::updateStatus(void)
+{
+	_status = readRegister(Motion_Status);
 }
 
 uint8_t PAN301::motion() const
@@ -115,6 +130,11 @@ uint8_t PAN301::dyOverflow() const
 {
 	return (uint8_t) (_status & Mask_DYOVF) == Mask_DYOVF;
 }
+uint8_t PAN301::getResolution(){
+    uint8_t _motion = readRegister(Motion_Status);
+    return (uint8_t) (_motion & Mask_Resolution) >> 1;
+}
+
 /******************************************************************************
 // Operation Mode 
 ******************************************************************************/
@@ -126,7 +146,7 @@ uint8_t PAN301::getLedShutterEnable(){
 void PAN301::setLedShutterEnable(uint8_t mode){
     if(mode<2){
         uint8_t _op_mode = readRegister(Operation_Mode);
-        _op_mode |= mode<<7;
+        _op_mode=writeNumInByte(_op_mode,mode,1,7);
         writeRegister(_op_mode)
     }
 }
@@ -139,7 +159,7 @@ uint8_t PAN301::getXYQuadratureOutputEnable(){
 void PAN301::setXYQuadratureOutputEnable(uint8_t mode){
     if(mode<2){
         uint8_t _op_mode = readRegister(Operation_Mode);
-        _op_mode |= mode<<6;
+        _op_mode=writeNumInByte(_op_mode,mode,1,6);
         writeRegister(_op_mode)
     }
 }
@@ -158,34 +178,39 @@ void PAN301::setSleepMode(uint8_t mode){
     //          1 - sleep_mode_1
     //          2 - sleep_mode_2
     uint8_t _op_mode = readRegister(Operation_Mode);
-    if(mode==0)
-        
+    if(mode==0)    
+        _op_mode=writeNumInByte(_op_mode,0b0,1,4);
     else
-    _op_mode |= (_op_mode & 0b00011000) >> 3;
+    {
+        _op_mode=writeNumInByte(_op_mode,mode+1,2,3);
+    }
     return (uint8_t) _op_mode==0?0:_op_mode-1;    
 }
 
 
 void PAN301::enterToSleep1(){
     uint8_t _op_mode = readRegister(Operation_Mode);
-    _op_mode |= 0b00010010;
+    _op_mode=writeNumInByte(_op_mode,0b1,1,4);
+    _op_mode=writeNumInByte(_op_mode,0b010,1,0);
     writeRegister(_op_mode)
 }
 
 void PAN301::enterToSleep2(){
-    uint8_t _op_mode = readRegister(Operation_Mode);
-    _op_mode |= 0b00010100;
+    uint8_t _op_mode = readRegister(Operation_Mode);    
+    _op_mode=writeNumInByte(_op_mode,0b1,1,4);
+    _op_mode=writeNumInByte(_op_mode,0b100,1,0);
     writeRegister(_op_mode)
 }
 
 void PAN301::wakeUp(){
-    uint8_t _op_mode = readRegister(Operation_Mode);
-    _op_mode |= 0x1;
+    uint8_t _op_mode = readRegister(Operation_Mode);    
+    _op_mode=writeNumInByte(_op_mode,0b1,1,0);
     writeRegister(_op_mode)
 }
 
 /******************************************************************************
  Configuration 
+ Field: Reserved[7:4]  PD[3] RES[2:1] Reserved[0]
 ******************************************************************************/
 
 uint8_t PAN301::getPowerDownMode(){
@@ -196,10 +221,14 @@ uint8_t PAN301::getPowerDownMode(){
 void PAN301::setPowerDownMode(uint8_t mode){
     if(mode<2){
         uint8_t _config = readRegister(Configuration_Register);
-        _config |= mode<<3;
+        _config=writeNumInByte(_config,mode,1,3);
         writeRegister(_config)
     }
 }
+
+ void PAN301::powerDown(){
+    setPowerDownMode(1);
+ }
 
 uint8_t PAN301::getOutputResolution(){
     uint8_t _config = readRegister(Configuration_Register);
@@ -209,10 +238,15 @@ uint8_t PAN301::getOutputResolution(){
 void PAN301::setOutputResolution(uint8_t mode){
     if(mode<3){
         uint8_t _config = readRegister(Configuration_Register);
-        _config |= mode<<1;
+        _config=writeNumInByte(_config,mode,2,1);
         writeRegister(_config)
     }
 }
 
 // Private Methods /////////////////////////////////////////////////////////////
-
+uint8_t PAN301::writeNumInByte(uint8_t source, uint8_t data, uint8_t numBit, uint8_t startBit){  
+  uint8_t res=source;
+  for(uint8_t i=startBit;i<startBit+numBit;i++)
+    if (data & (1 << i-startBit)) res = res | (1 << i); else res = res & (~(1 << i));
+  return res;
+}
