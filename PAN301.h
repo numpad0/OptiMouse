@@ -16,9 +16,27 @@ class PAN301 : public OptiMouse
 {
   private:
 	uint8_t _status;
+    uint8_t _pdPin;
     uint8_t writeNumInByte(uint8_t source, uint8_t data, uint8_t numBit, uint8_t startBit);
   public:
-	PAN301(uint8_t, uint8_t);
+    /**
+    * @fn PAN301
+    * @brief Create new PAN301 class object
+    * @param sclkPin - SerialIO clock pin
+    * @param sdioPin - SerialIO data pin
+    * @return None
+    */
+	PAN301(uint8_t sclkPin, uint8_t sdioPin);
+     /**
+    * @fn PAN301
+    * @brief Create new PAN301 class object
+    * @param sclkPin - SerialIO clock pin
+    * @param sdioPin - SerialIO data pin
+    * @param pdPin - PowerDown pin
+    * @return None
+    */
+    PAN301(uint8_t sclkPin, uint8_t sdioPin, uint8_t pdPin);
+
     /**
     * @fn productID
     * @brief Get Product ID 
@@ -139,10 +157,11 @@ class PAN301 : public OptiMouse
     * @brief Force wakeup from sleep mode. 
     * @return None.
     */
-    void wakeUp();
+    void wakeUp(bool physicalPin=false);
     /**
     * @fn getPowerDownMode
     * @brief Get Power down mode
+    * @param physicalPin true: Use PD pin, 1: Use register
     * @return uint8_t, Power down mode type
     * @retval 0 = Normal operation (Default) 
     * @retval 1 = Power down mode
@@ -161,10 +180,11 @@ class PAN301 : public OptiMouse
     * @param mode 0: Normal operation, 1: Power down
     * @return None    
     */
-    void powerDown();
+    void powerDown(bool physicalPin=false);
     /**
     * @fn getOutputResolution
     * @brief Get Output resolution setting
+    * @param physicalPin true: Use PD pin, 1: Use register
     * @return uint8_t, Output resolution type
     * @retval 0 = 800 (Default  @ PAN301ASI-208) 
     * @retval 1 = 400 (Default  @ PAN301ASI-204) 

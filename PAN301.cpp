@@ -81,6 +81,11 @@ PAN301::PAN301(uint8_t sclkPin, uint8_t sdioPin) : OptiMouse::OptiMouse(sclkPin,
 
 }
 
+PAN301::PAN301(uint8_t sclkPin, uint8_t sdioPin, uint8_t pdPin) : OptiMouse::OptiMouse(sclkPin, sdioPin)
+{
+    _pdPin=pdPin;
+}
+
 /******************************************************************************
  * Product_ID
  ******************************************************************************/
@@ -202,10 +207,15 @@ void PAN301::enterToSleep2(){
     writeRegister(_op_mode)
 }
 
-void PAN301::wakeUp(){
-    uint8_t _op_mode = readRegister(Operation_Mode);    
-    _op_mode=writeNumInByte(_op_mode,0b1,1,0);
-    writeRegister(_op_mode)
+void PAN301::wakeUp(bool physicalPin=false){
+    if(physicalPin==true)
+        digitalWrite(_pdPin,LOW);
+    else
+    {
+        uint8_t _op_mode = readRegister(Operation_Mode);    
+        _op_mode=writeNumInByte(_op_mode,0b1,1,0);
+        writeRegister(_op_mode)
+    }
 }
 
 /******************************************************************************
@@ -226,9 +236,13 @@ void PAN301::setPowerDownMode(uint8_t mode){
     }
 }
 
- void PAN301::powerDown(){
-    setPowerDownMode(1);
+ void PAN301::powerDown(bool physicalPin=false){
+    if(physicalPin==true)
+        digitalWrite(_pdPin,HIGH);
+    else
+        setPowerDownMode(1);
  }
+
 
 uint8_t PAN301::getOutputResolution(){
     uint8_t _config = readRegister(Configuration_Register);
