@@ -7,6 +7,7 @@
 #######################################
 
 PAN3101	KEYWORD1
+PAN301	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -18,6 +19,25 @@ dy	KEYWORD2
 motion	KEYWORD2
 dxOverflow	KEYWORD2
 dyOverflow	KEYWORD2
+
+productID	 KEYWORD2
+getResolution	 KEYWORD2
+getLedShutterEnable	 KEYWORD2
+setLedShutterEnable	 KEYWORD2
+getXYQuadratureOutputEnable	 KEYWORD2
+setXYQuadratureOutputEnable	 KEYWORD2
+getSleepMode	 KEYWORD2
+setSleepMode	 KEYWORD2
+enterToSleep1	 KEYWORD2
+enterToSleep2	 KEYWORD2
+wakeUp	 KEYWORD2
+getPowerDownMode	 KEYWORD2
+setPowerDownMode	 KEYWORD2
+powerDown	 KEYWORD2
+getOutputResolution	 KEYWORD2
+setOutputResolution	 KEYWORD2
+writeNumInByte	 KEYWORD2
+
 
 #######################################
 # Constants (LITERAL1)
