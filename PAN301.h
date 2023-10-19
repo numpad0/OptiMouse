@@ -11,7 +11,46 @@
 #include <inttypes.h>
 
 #include "OptiMouse.h"
+/*
+PAN301 pin description 
+No  Name    Type        Definition
+------------------------------------------------------------
+1   VSS_LED GND     LED ground 
+2   LED     I/O     LED control 
+3   OSCOUT  OUT     Resonator output 
+4   OSCIN   IN      Resonator input 
+5   NC      -       No connection 
+6   VSS     GND     Chip ground 
+7   VSS     GND     Chip ground 
+8   VDD     PWR     Chip power, 5V power supply 
+9   VREFA   BYPASS  Analog voltage reference 
+10  VREFB   BYPASS  Analog voltage reference 
+11  YA      OUT     YA quadrature output  
+12  YB      OUT     YB quadrature output 
+13  XA      OUT     XA quadrature output 
+14  XB      OUT     XB quadrature output 
+15  NC      -       No connection 
+16  NC      -       No connection 
+17  NC      -       No connection 
+18  SCLK    IN      Serial interface clock 
+19  SDIO    I/O     Serial interface bi-direction data 
+20  PD      IN      Power down pin, active high
+------------------------------------------------------------
+     -------------
+1   =| o         |=   20
+    =|           |=
+    =|           |=
+    =|           |=
+    =|           |=
+    =|   .....   |=
+    =|  .  o  .  |=
+    =|  .  O  .  |=
+    =|  .  o  .  |=
+10  =|   .....   |=  11
+     -------------
+------------------------------------------------------------
 
+*/
 class PAN301 : public OptiMouse
 {
   private:
