@@ -70,33 +70,48 @@ void OptiMouse::begin(void)
 uint8_t OptiMouse::readRegister(uint8_t address)
 {
 	int i = 7;
-	uint8_t r = 0;
+	uint8_t value=0;
 	
 	// Write the address of the register we want to read:
 	pinMode (_sdioPin, OUTPUT);
-	for (; i>=0; i--)
-	{
-		digitalWrite (_sclkPin, LOW);
-		digitalWrite (_sdioPin, address & (1 << i));
-		digitalWrite (_sclkPin, HIGH);
-	}
-	
-	// Switch data line from OUTPUT to INPUT
-	pinMode (_sdioPin, INPUT);
-	
-	// Wait a bit...
-	delayMicroseconds(100);
-	
-	// Fetch the data!
-	for (i=7; i>=0; i--)
-	{                             
-		digitalWrite (_sclkPin, LOW);
-		digitalWrite (_sclkPin, HIGH);
-		r |= (digitalRead (_sdioPin) << i);
-	}
-	delayMicroseconds(100);
-	
-	return r;
+	digitalWrite(_sclkPin, HIGH); //Make sure the clock is high.
+    address &= 0x7F;    //Make sure the highest bit of the address byte is '0' to indicate a read.
+ 
+    //Send the Address 
+    for(int address_bit=7; address_bit >=0; address_bit--){
+        digitalWrite(_sclkPin, LOW);  //Lower the clock
+        pinMode(_sdioPin, OUTPUT); //Make sure the SDIO pin is set as an output.
+        
+        //If the current bit is a 1, set the SDIO pin. If not, clear the SDIO pin
+        if(address & (1<<address_bit)){
+            digitalWrite(_sdioPin, HIGH);
+        }
+        else{
+            digitalWrite(_sdioPin, LOW);
+        }
+        delayMicroseconds(10);
+        digitalWrite(_sclkPin, HIGH);
+        delayMicroseconds(10);
+    }
+    
+    delayMicroseconds(120);   //Allow extra time for ADNS2620 to transition the SDIO pin (per datasheet)
+    //Make SDIO an input on the microcontroller
+    pinMode(_sdioPin, INPUT);	//Make sure the SDIO pin is set as an input.
+	digitalWrite(_sdioPin, HIGH); //Enable the internal pull-up
+        
+    //Send the Value byte to the ADNS2620
+    for(int value_bit=7; value_bit >= 0; value_bit--){
+        digitalWrite(_sclkPin, LOW);  //Lower the clock
+        delayMicroseconds(10); //Allow the ADNS2620 to configure the SDIO pin
+        digitalWrite(_sclkPin, HIGH);  //Raise the clock
+        delayMicroseconds(10);
+        //If the SDIO pin is high, set the current bit in the 'value' variable. If low, leave the value bit default (0).    
+		//if((ADNS_PIN & (1<<_sdioPin)) == (1<<_sdioPin))value|=(1<<value_bit);
+		if(digitalRead(_sdioPin))value |= (1<<value_bit);
+
+    }
+    
+    return value;
 }
 
 void OptiMouse::writeRegister(uint8_t address, uint8_t data)
@@ -107,12 +122,16 @@ void OptiMouse::writeRegister(uint8_t address, uint8_t data)
 	address |= 0x80;
 	
 	// Write the address:
-	pinMode (_sdioPin, OUTPUT);
+	pinMode(_sdioPin, OUTPUT);	//Make sure the SDIO pin is set as an output.
+    digitalWrite(_sclkPin, HIGH)
 	for (; i>=0; i--)
 	{
 		digitalWrite (_sclkPin, LOW);
+		delayMicroseconds(10);
 		digitalWrite (_sdioPin, address & (1 << i));
+		delayMicroseconds(10);
 		digitalWrite (_sclkPin, HIGH);
+		delayMicroseconds(10);
 	}
 	
 	// Write the data:
@@ -120,6 +139,8 @@ void OptiMouse::writeRegister(uint8_t address, uint8_t data)
 	{
 		digitalWrite (_sclkPin, LOW);
 		digitalWrite (_sdioPin, data & (1 << i));
+		delayMicroseconds(10);
 		digitalWrite (_sclkPin, HIGH);
+		delayMicroseconds(10);
 	}
 }

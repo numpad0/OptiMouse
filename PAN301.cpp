@@ -271,9 +271,9 @@ void PAN301::reSync(bool physicalPin){
     }
     else{
         digitalWrite(_sclkPin, HIGH);                     
-        delayMicroseconds(1);
+        delayMicroseconds(10);
         digitalWrite(_sclkPin, LOW);
-        delayMicroseconds(2);
+        delayMicroseconds(20);
         digitalWrite(_sclkPin, HIGH);                     
         delay(2);
     }
