@@ -189,8 +189,7 @@ void PAN301::setSleepMode(uint8_t mode){
     else
     {
         _op_mode=writeNumInByte(_op_mode,mode+1,2,3);
-    }
-    return (uint8_t) _op_mode==0?0:_op_mode-1;    
+    }  
 }
 
 
@@ -208,7 +207,7 @@ void PAN301::enterToSleep2(){
     writeRegister(Operation_Mode,_op_mode);
 }
 
-void PAN301::wakeUp(bool physicalPin=false){
+void PAN301::wakeUp(bool physicalPin){
     if(physicalPin==true)
         digitalWrite(_pdPin,LOW);
     else
@@ -238,7 +237,7 @@ void PAN301::setPowerDownMode(uint8_t mode){
     }
 }
 
- void PAN301::powerDown(bool physicalPin=false){
+ void PAN301::powerDown(bool physicalPin){
     if(physicalPin==true){
         digitalWrite(_pdPin,HIGH);
         delay(1);
@@ -261,7 +260,7 @@ void PAN301::setOutputResolution(uint8_t mode){
     }
 }
 
-void PAN301::reSync(bool physicalPin=false){
+void PAN301::reSync(bool physicalPin){
     if(physicalPin){
         digitalWrite(_pdPin, HIGH);                     
         delayMicroseconds(2);
