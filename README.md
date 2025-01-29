@@ -34,5 +34,5 @@ Below is a list of compatible sensors taken from Telink TLSR8510/TLSR8513 datash
 #### Credits
 Original code by Martijn The  
 Modified by zapmaker to (a) run on Arduino 1.x and (b) support 2620 sensor  
-Modified by github.com/ax-iv to add PAN3101 support  
+Modified by github.com/ax-iv to add PAN301 support  
 Modified by @numpad0 to add MX8650/MX8650A support
