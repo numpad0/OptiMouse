@@ -4,7 +4,7 @@
  http://www.martijnthe.nl/
  Conversion to Arduino 1.x by zapmaker (zapmaker.org)
  
- Based on sketches by Benoît Rousseau.
+ Based on sketches by Beno�t Rousseau.
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -20,6 +20,10 @@
  License along with this library; if not, write to the Free Software
  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
+
+/*
+ edited from above by @numpad0 (c)2025
+*/
 
 #ifndef MX8650A_h
 #define MX8650A_h
@@ -38,23 +42,23 @@ class MX8650A : public OptiMouse
 	signed char MX8650A::dx(void);
 	signed char MX8650A::dy(void);
 	signed char MX8650A::operationMode(void);
-	signed void MX8650A::setOperationMode(char OpMode);
+	void MX8650A::setOperationMode(char OpMode);
 	signed char MX8650A::configuration(void);
-	signed void MX8650A::setConfiguration(char Conf);
+	void MX8650A::setConfiguration(char Conf);
 	signed char MX8650A::imageQuality(void);
 	signed char MX8650A::operationState(void);
 	signed char MX8650A::writeProtect(void);
-	signed void MX8650A::setWriteProtect(char Wp);
+	void MX8650A::setWriteProtect(char Wp);
 	signed char MX8650A::sleep1Setting(void);
-	signed void MX8650A::setSleep1Setting(char Sp1Set);
+	void MX8650A::setSleep1Setting(char Sp1Set);
 	signed char MX8650A::enterTime(void);
-	signed void MX8650A::setEnterTime(char EntTime);
+	void MX8650A::setEnterTime(char EntTime);
 	signed char MX8650A::sleep2Setting(void);
-	signed void MX8650A::setSleep2Setting(char Sp2Set);
+	void MX8650A::setSleep2Setting(char Sp2Set);
 	signed char MX8650A::imageThreshold(void);
-	signed void MX8650A::setImageThreshold(char ImgThr);
+	void MX8650A::setImageThreshold(char ImgThr);
 	signed char MX8650A::imageRecognition(void);
-	signed void MX8650A::setImageRecognition(char ImgRcg);
+	void MX8650A::setImageRecognition(char ImgRcg);
 };
 
 #endif
