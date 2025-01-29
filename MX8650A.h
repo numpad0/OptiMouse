@@ -4,7 +4,7 @@
  http://www.martijnthe.nl/
  Conversion to Arduino 1.x by zapmaker (zapmaker.org)
  
- Based on sketches by Benoît Rousseau.
+ Based on sketches by BenoÃ®t Rousseau.
  
  This library is free software; you can redistribute it and/or
  modify it under the terms of the GNU Lesser General Public
@@ -43,7 +43,7 @@ class MX8650A : public OptiMouse
 	signed void MX8650A::setConfiguration(char Conf);
 	signed char MX8650A::imageQuality(void);
 	signed char MX8650A::operationState(void);
-	signed char MX8650A::setProtect(void);
+	signed char MX8650A::writeProtect(void);
 	signed void MX8650A::setWriteProtect(char Wp);
 	signed char MX8650A::sleep1Setting(void);
 	signed void MX8650A::setSleep1Setting(char Sp1Set);
