@@ -111,7 +111,7 @@ signed char MX8650A::operationMode(void)
 	//  1      0    1    1       1       0       0       0
 }
 
-signed void MX8650A::setOperationMode(char OpMode)
+void MX8650A::setOperationMode(char OpMode)
 {
 	writeRegister(Operation_Mode, OpMode);
 	// Default: 0xB8
@@ -135,7 +135,7 @@ signed char MX8650A::configuration(void)
 	//  0      0       0      0      0      1     0      0
 }
 
-signed void MX8650A::setConfiguration(char Conf)
+void MX8650A::setConfiguration(char Conf)
 {
 	writeRegister(Operation_Mode, Conf);
 	// Default: 0x04
@@ -185,7 +185,7 @@ signed char MX8650A::writeProtect(void)
 	// 0x5A: unlocked
 }
 
-signed void MX8650A::setWriteProtect(char Wp)
+void MX8650A::setWriteProtect(char Wp)
 {
 	writeRegister(Write_Protect, Wp);
 	// Default: 0x00
@@ -202,7 +202,7 @@ signed char MX8650A::sleep1Setting(void)
 	//  0       1       1       1       0  0  1  0
 }
 
-signed void MX8650A::setSleep1Setting(char Sp1Set)
+void MX8650A::setSleep1Setting(char Sp1Set)
 {
 	writeRegister(Sleep1_Setting, Sp1Set);
 	// Default: 0x72
@@ -221,7 +221,7 @@ signed char MX8650A::enterTime(void)
 	//  0      0      0      1      0      0      1      0   
 }
 
-signed void MX8650A::setEnterTime(char EntTime)
+void MX8650A::setEnterTime(char EntTime)
 {
 	writeRegister(Enter_Time, EntTime);
 	// Default: 0x12
@@ -244,7 +244,7 @@ signed char MX8650A::sleep2Setting(void)
 	//  1       0       0       1       0  0  1  0
 }
 
-signed void MX8650A::setSleep2Setting(char Sp2Set)
+void MX8650A::setSleep2Setting(char Sp2Set)
 {
 	writeRegister(Sleep2_Setting, Sp2Set);
 	// Default: 0x92
@@ -263,7 +263,7 @@ signed char MX8650A::imageThreshold(void)
 	// 0b00010000
 }
 
-signed void MX8650A::setImageThreshold(char ImgThr)
+void MX8650A::setImageThreshold(char ImgThr)
 {
 	writeRegister(Image_Threshold, ImgThr);
 	// Default: 0x10
@@ -280,7 +280,7 @@ signed char MX8650A::imageRecognition(void)
 	//  1      0      1     0    1        0        0        1
 }
 
-signed void MX8650A::setImageRecognition(char ImgRcg)
+void MX8650A::setImageRecognition(char ImgRcg)
 {
 	writeRegister(Image_Recognition, ImgRcg);
 	// Default: 0xA9
