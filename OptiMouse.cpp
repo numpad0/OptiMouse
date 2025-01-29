@@ -123,7 +123,7 @@ void OptiMouse::writeRegister(uint8_t address, uint8_t data)
 	
 	// Write the address:
 	pinMode(_sdioPin, OUTPUT);	//Make sure the SDIO pin is set as an output.
-    digitalWrite(_sclkPin, HIGH)
+    	digitalWrite(_sclkPin, HIGH);
 	for (; i>=0; i--)
 	{
 		digitalWrite (_sclkPin, LOW);
