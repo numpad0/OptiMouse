@@ -7,8 +7,8 @@ Arduino 1.x library for (wireless) mouse optical sensors
 - Shenzhen LIZE MX8650 / SiGma Micro MX8650A
 
 ### Usage
-Connect Vdd, GND, DATA, CLOCK pins to Arduino. Any I/O pins should work. Skip Vdd if mouse is using power from battery.
-Supported mouse sensors can be found in many cheap *wireless* mouse - modern ultracheap wired mice tend to use all-in-one direct USB connections, and no longer has easy command interfaces. For harvesting, cheapest wireless mice you can find are recommended(wireless chip on the mouse must be removed for this library to work). 
+Connect Vdd, GND to either 3V3 or 5V pins on an Arduino for power(chip dependent). Connect DATA, CLOCK pins to an I/O pin of choice on an Arduino. Any I/O pins should work. Skip Vdd if mouse is using power from battery, but keep GND-GND connection. If you don't, currents through DATA/CLOCK pins would go through AC adapters, and you might not want that.
+Supported mouse sensors can be found in many cheap *wireless* mouse - modern ultracheap *wired* mice tend to be all-in-one direct USB solutions, and no longer has easy command interfaces. For harvesting, cheapest wireless mice you can find are recommended(wireless chip on the mouse must be removed for this library to work). 
 
 ### Raw image output
 Very early HP/Agilent sensors had a raw image extraction debug command, which allowed a modified mouse to be used as a scanner. **None of modern mouse sensors support this feature**, likely due to security implications. This library just implements what commands are on datasheet, and cannot "force enable" such feature on modern sensors.
